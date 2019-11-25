@@ -1,20 +1,5 @@
 #include "../includes/node.hpp"
 
-float Node::make_heuristic(Node &node)
-{
-    int h;
-    for (int i = 0; i < GAME_SIZE; i++)
-    {
-        for (int j = 0; j < GAME_SIZE; j++)
-        {
-            if (node.board.matrix[i][j] != node.board.final_matrix[i][j])
-                ++h;
-        }
-    }
-
-    return h;
-}
-
 bool Node::check_success()
 {
     return this->h == 0 ? true : false;

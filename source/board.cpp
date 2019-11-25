@@ -46,7 +46,6 @@ float Board::make_heuristic()
                 ++h;
         }
     }
-    std::cout << "Calculando heurística: " << h << std::endl;
     return h;
 }
 

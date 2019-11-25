@@ -14,7 +14,6 @@ public:
     Node *father;
 
 public:
-    float make_heuristic(Node &);
     bool check_success();
     Node();
     Node(Node &);

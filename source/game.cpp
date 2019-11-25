@@ -2,10 +2,8 @@
 
 Game::Game()
 {
-    std::cout << "Construtor Game" << std::endl;
     Node *head = new Node();
     this->open_list.push_back(head);
-    std::cout << "Terminei Game -> " << this->open_list.size() << std::endl;
 }
 
 void Game::make_nexts(Node *pai)
@@ -26,14 +24,10 @@ void Game::make_nexts(Node *pai)
         child_1->h = child_1->board.make_heuristic();
         child_1->f = child_1->h + child_1->g;
 
-        print_board(child_1->board);
+        // print_board(child_1->board);
 
         if (this->check_open_list(*child_1))
-        {
             this->open_list.push_back(child_1);
-            std::cout << "f(x) do filho " << child_1->f << std::endl;
-            std::cout << "Inseri no conjunto o filho 1 -> " << this->open_list.size() << std::endl;
-        }
         else
             delete child_1;
     }
@@ -43,13 +37,10 @@ void Game::make_nexts(Node *pai)
         child_2->h = child_2->board.make_heuristic();
         child_2->f = child_2->h + child_2->g;
 
-        print_board(child_2->board);
+        // print_board(child_2->board);
+
         if (this->check_open_list(*child_2))
-        {
             this->open_list.push_back(child_2);
-            std::cout << "f(x) do filho " << child_2->f << std::endl;
-            std::cout << "Inseri no conjunto o filho 2 -> " << this->open_list.size() << std::endl;
-        }
         else
             delete child_2;
     }
@@ -59,14 +50,10 @@ void Game::make_nexts(Node *pai)
         child_3->h = child_3->board.make_heuristic();
         child_3->f = child_3->h + child_3->g;
 
-        print_board(child_3->board);
+        // print_board(child_3->board);
 
         if (this->check_open_list(*child_3))
-        {
             this->open_list.push_back(child_3);
-            std::cout << "f(x) do filho " << child_3->f << std::endl;
-            std::cout << "Inseri no conjunto o filho 3 -> " << this->open_list.size() << std::endl;
-        }
         else
             delete child_3;
     }
@@ -76,14 +63,10 @@ void Game::make_nexts(Node *pai)
         child_4->h = child_4->board.make_heuristic();
         child_4->f = child_4->h + child_4->g;
 
-        print_board(child_4->board);
+        // print_board(child_4->board);
 
         if (this->check_open_list(*child_4))
-        {
             this->open_list.push_back(child_4);
-            std::cout << "f(x) do filho " << child_4->f << std::endl;
-            std::cout << "Inseri no conjunto o filho 4 -> " << this->open_list.size() << std::endl;
-        }
         else
             delete child_4;
     }
@@ -99,9 +82,7 @@ bool Game::check_open_list(Node &node)
             {
                 if (node.g <= (*it)->g)
                 {
-                    std::cout << "Tamanho antes " << this->open_list.size() << std::endl;
                     this->open_list.erase(it);
-                    std::cout << "Tamnho depois " << this->open_list.size() << std::endl;
                     return true;
                 }
                 return false;
@@ -128,6 +109,5 @@ bool Game::check_closed_list(Node &node)
             }
         }
     }
-
     return true;
 }

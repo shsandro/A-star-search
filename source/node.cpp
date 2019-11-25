@@ -19,12 +19,10 @@ void print_board(Board &b)
 
 Node::Node()
 {
-    std::cout << "Construtor Node" << std::endl;
     // this->board = Board();
     this->g = 0;
     this->father = nullptr;
     this->f = this->h;
-    print_board(this->board);
     this->h = this->board.make_heuristic();
 }
 

@@ -15,5 +15,6 @@ public:
     void make_nexts(Node *);
     bool check_open_list(Node &);
     bool check_closed_list(Node &);
+    bool check_closed_open(Node &);
     Game();
 };

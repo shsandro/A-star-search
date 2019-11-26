@@ -25,8 +25,8 @@ void Game::make_nexts(Node *pai)
         child_1->f = child_1->h + child_1->g;
 
         // print_board(child_1->board);
-
-        if (this->check_open_list(*child_1))
+        check_open_list(*child_1);
+        if (!this->check_closed_open(*child_1))
             this->open_list.push_back(child_1);
         else
             delete child_1;
@@ -39,7 +39,8 @@ void Game::make_nexts(Node *pai)
 
         // print_board(child_2->board);
 
-        if (this->check_open_list(*child_2))
+        check_open_list(*child_2);
+        if (!this->check_closed_open(*child_2))
             this->open_list.push_back(child_2);
         else
             delete child_2;
@@ -52,7 +53,8 @@ void Game::make_nexts(Node *pai)
 
         // print_board(child_3->board);
 
-        if (this->check_open_list(*child_3))
+        check_open_list(*child_3);
+        if (!this->check_closed_open(*child_3))
             this->open_list.push_back(child_3);
         else
             delete child_3;
@@ -65,7 +67,8 @@ void Game::make_nexts(Node *pai)
 
         // print_board(child_4->board);
 
-        if (this->check_open_list(*child_4))
+        check_open_list(*child_4);
+        if (!this->check_closed_open(*child_4))
             this->open_list.push_back(child_4);
         else
             delete child_4;
@@ -83,9 +86,7 @@ bool Game::check_open_list(Node &node)
                 if (node.g <= (*it)->g)
                 {
                     this->open_list.erase(it);
-                    return true;
                 }
-                return false;
             }
         }
     }
@@ -103,11 +104,37 @@ bool Game::check_closed_list(Node &node)
                 if (node.g < (*it)->g)
                 {
                     this->closed_list.erase(it);
-                    return true;
                 }
-                return false;
             }
         }
     }
     return true;
+}
+
+bool Game::check_closed_open(Node &node)
+{
+    bool aux1 = false, aux2 = false;
+
+    for (std::vector<Node *>::iterator it = this->open_list.begin(); it != this->open_list.end(); ++it)
+    {
+        if ((*it)->f == node.f)
+        {
+            if (Board::check_board((*it)->board, node.board))
+            {
+                aux1 = true;
+            }
+        }
+    }
+
+    for (std::vector<Node *>::iterator it = this->closed_list.begin(); it != this->closed_list.end(); ++it)
+    {
+        if ((*it)->f == node.f)
+        {
+            if (Board::check_board((*it)->board, node.board))
+            {
+                aux2 = true;
+            }
+        }
+    }
+    return aux1 && aux2;
 }

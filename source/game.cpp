@@ -1,140 +1,137 @@
 #include "../includes/game.hpp"
 
-Game::Game()
+std::string matrix_to_string(Board *b)
 {
-    Node *head = new Node();
-    this->open_list.push_back(head);
+    std::string str;
+    for (int i = 0; i < GAME_SIZE; i++)
+    {
+        for (int j = 0; j < GAME_SIZE; j++)
+        {
+            str += std::to_string(b->matrix[i][j]);
+        }
+    }
+    return str;
+}
+
+Game::Game(Board *initial_board)
+{
+    Node *head = new Node(initial_board);
+    std::string key = matrix_to_string(head->board);
+    this->open_list.insert(std::pair<std::string, Node *>(key, head));
+    this->heap.push(std::pair<std::string, Node *>(key, head));
 }
 
 void Game::make_nexts(Node *pai)
 {
     Node father = *pai;
-    father.g--;
 
-    Node *child_1 = new Node(father);
-    Node *child_2 = new Node(father);
-    Node *child_3 = new Node(father);
-    Node *child_4 = new Node(father);
+    Node *child_1 = new Node(father, father.board);
+    Node *child_2 = new Node(father, father.board);
+    Node *child_3 = new Node(father, father.board);
+    Node *child_4 = new Node(father, father.board);
 
-    std::pair<int, int> position = father.board.empty_position;
+    std::pair<int, int> position = father.board->empty_position;
 
     if (position.first != 0)
     {
-        child_1->board.update_board(std::make_pair(position.first - 1, position.second));
-        child_1->h = child_1->board.make_heuristic();
+        child_1->board->update_board(std::make_pair(position.first - 1, position.second));
+        child_1->h = child_1->board->make_heuristic();
         child_1->f = child_1->h + child_1->g;
 
-        // print_board(child_1->board);
-        check_open_list(*child_1);
-        if (!this->check_closed_open(*child_1))
-            this->open_list.push_back(child_1);
+        std::string key = matrix_to_string(child_1->board);
+        check_open_list(*child_1, key);
+        if (this->check_a_f(*child_1, key))
+        {
+            this->open_list.insert(std::pair<std::string, Node *>(key, child_1));
+            this->heap.push(std::pair<std::string, Node *>(key, child_1));
+        }
         else
             delete child_1;
     }
     if (position.first != 3)
     {
-        child_2->board.update_board(std::make_pair(position.first + 1, position.second));
-        child_2->h = child_2->board.make_heuristic();
+        child_2->board->update_board(std::make_pair(position.first + 1, position.second));
+        child_2->h = child_2->board->make_heuristic();
         child_2->f = child_2->h + child_2->g;
 
-        // print_board(child_2->board);
-
-        check_open_list(*child_2);
-        if (!this->check_closed_open(*child_2))
-            this->open_list.push_back(child_2);
+        std::string key = matrix_to_string(child_2->board);
+        check_open_list(*child_2, key);
+        if (this->check_a_f(*child_2, key))
+        {
+            this->open_list.insert(std::pair<std::string, Node *>(key, child_2));
+            this->heap.push(std::pair<std::string, Node *>(key, child_2));
+        }
         else
             delete child_2;
     }
     if (position.second != 0)
     {
-        child_3->board.update_board(std::make_pair(position.first, position.second - 1));
-        child_3->h = child_3->board.make_heuristic();
+        child_3->board->update_board(std::make_pair(position.first, position.second - 1));
+        child_3->h = child_3->board->make_heuristic();
         child_3->f = child_3->h + child_3->g;
 
-        // print_board(child_3->board);
-
-        check_open_list(*child_3);
-        if (!this->check_closed_open(*child_3))
-            this->open_list.push_back(child_3);
+        std::string key = matrix_to_string(child_3->board);
+        check_open_list(*child_3, key);
+        if (this->check_a_f(*child_3, key))
+        {
+            this->open_list.insert(std::pair<std::string, Node *>(key, child_3));
+            this->heap.push(std::pair<std::string, Node *>(key, child_3));
+        }
         else
             delete child_3;
     }
     if (position.second != 3)
     {
-        child_4->board.update_board(std::make_pair(position.first, position.second + 1));
-        child_4->h = child_4->board.make_heuristic();
+        child_4->board->update_board(std::make_pair(position.first, position.second + 1));
+        child_4->h = child_4->board->make_heuristic();
         child_4->f = child_4->h + child_4->g;
 
-        // print_board(child_4->board);
-
-        check_open_list(*child_4);
-        if (!this->check_closed_open(*child_4))
-            this->open_list.push_back(child_4);
+        std::string key = matrix_to_string(child_4->board);
+        check_open_list(*child_4, key);
+        if (this->check_a_f(*child_4, key))
+        {
+            this->open_list.insert(std::pair<std::string, Node *>(key, child_4));
+            this->heap.push(std::pair<std::string, Node *>(key, child_4));
+        }
         else
             delete child_4;
     }
 }
 
-bool Game::check_open_list(Node &node)
+void Game::check_open_list(Node &node, std::string key)
 {
-    for (std::vector<Node *>::iterator it = this->open_list.begin(); it != this->open_list.end(); ++it)
+    std::unordered_map<std::string, Node *>::iterator it = this->open_list.find(key);
+    if (it != this->open_list.end())
     {
-        if ((*it)->f == node.f)
+        if (it->second->g > node.g)
         {
-            if (Board::check_board((*it)->board, node.board))
-            {
-                if (node.g <= (*it)->g)
-                {
-                    this->open_list.erase(it);
-                }
-            }
+            this->open_list.erase(key);
         }
     }
-    return true;
 }
 
-bool Game::check_closed_list(Node &node)
+// bool Game::check_closed_list(Node &node)
+// {
+//     for (std::vector<Node *>::iterator it = this->closed_list.begin(); it != this->closed_list.end(); ++it)
+//     {
+//         if ((*it)->f == node.f)
+//         {
+//             if (Board::check_board((*it)->board, node.board))
+//             {
+//                 if (node.g < (*it)->g)
+//                 {
+//                     this->closed_list.erase(it);
+//                 }
+//             }
+//         }
+//     }
+//     return true;
+// }
+
+bool Game::check_a_f(Node &node, std::string key)
 {
-    for (std::vector<Node *>::iterator it = this->closed_list.begin(); it != this->closed_list.end(); ++it)
-    {
-        if ((*it)->f == node.f)
-        {
-            if (Board::check_board((*it)->board, node.board))
-            {
-                if (node.g < (*it)->g)
-                {
-                    this->closed_list.erase(it);
-                }
-            }
-        }
-    }
-    return true;
-}
+    std::unordered_map<std::string, Node *>::iterator it_open = this->open_list.find(key);
+    std::unordered_map<std::string, Node *>::iterator it_closed = this->closed_list.find(key);
 
-bool Game::check_closed_open(Node &node)
-{
-    bool aux1 = false, aux2 = false;
-
-    for (std::vector<Node *>::iterator it = this->open_list.begin(); it != this->open_list.end(); ++it)
-    {
-        if ((*it)->f == node.f)
-        {
-            if (Board::check_board((*it)->board, node.board))
-            {
-                aux1 = true;
-            }
-        }
-    }
-
-    for (std::vector<Node *>::iterator it = this->closed_list.begin(); it != this->closed_list.end(); ++it)
-    {
-        if ((*it)->f == node.f)
-        {
-            if (Board::check_board((*it)->board, node.board))
-            {
-                aux2 = true;
-            }
-        }
-    }
-    return aux1 && aux2;
+    return (it_open != this->open_list.end() || it_closed != this->closed_list.end()) ? false : true;
 }

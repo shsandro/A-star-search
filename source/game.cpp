@@ -21,9 +21,9 @@ Game::Game(Board *initial_board)
     this->heap.push(std::pair<std::string, Node *>(key, head));
 }
 
-void Game::make_nexts(Node *pai)
+void Game::make_nexts(Node *parent)
 {
-    Node father = *pai;
+    Node father = *parent;
 
     Node *child_1 = new Node(father, father.board);
     Node *child_2 = new Node(father, father.board);
@@ -109,24 +109,6 @@ void Game::check_open_list(Node &node, std::string key)
         }
     }
 }
-
-// bool Game::check_closed_list(Node &node)
-// {
-//     for (std::vector<Node *>::iterator it = this->closed_list.begin(); it != this->closed_list.end(); ++it)
-//     {
-//         if ((*it)->f == node.f)
-//         {
-//             if (Board::check_board((*it)->board, node.board))
-//             {
-//                 if (node.g < (*it)->g)
-//                 {
-//                     this->closed_list.erase(it);
-//                 }
-//             }
-//         }
-//     }
-//     return true;
-// }
 
 bool Game::check_a_f(Node &node, std::string key)
 {

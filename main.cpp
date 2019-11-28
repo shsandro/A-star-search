@@ -1,7 +1,9 @@
 #include "./includes/game.hpp"
+#include "./includes/heuristics.hpp"
 
 int main(int argc, char const *argv[])
 {
+    Game::make_heuristic = &heuristc_5;
     Board *initial_board = new Board();
     Game game = Game(initial_board);
 
@@ -10,10 +12,9 @@ int main(int argc, char const *argv[])
 
     while (!game.open_list.empty())
     {
-        min_element = std::make_pair(game.heap.top().first, game.heap.top().second);
+        min_element = game.heap.top();
         game.heap.pop();
         it = game.open_list.find(min_element.first);
-
         if (it != game.open_list.end())
         {
             game.open_list.erase(min_element.first);
@@ -28,5 +29,6 @@ int main(int argc, char const *argv[])
             game.make_nexts(min_element.second);
         }
     }
+
     return 0;
 }

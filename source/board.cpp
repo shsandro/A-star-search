@@ -35,33 +35,19 @@ void Board::update_board(std::pair<int, int> new_position)
     this->empty_position = new_position;
 }
 
-float Board::make_heuristic()
-{
-    int h = 0;
-    for (int i = 0; i < GAME_SIZE; i++)
-    {
-        for (int j = 0; j < GAME_SIZE; j++)
-        {
-            if (this->matrix[i][j] != this->final_matrix[i][j])
-                ++h;
-        }
-    }
-    return h;
-}
-
-bool Board::check_board(Board &board_1, Board &board_2)
-{
-    for (int i = 0; i < GAME_SIZE; i++)
-    {
-        for (int j = 0; j < GAME_SIZE; j++)
-        {
-            if (board_1.matrix[i][j] != board_2.matrix[i][j])
-                return false;
-        }
-    }
-
-    return true;
-}
+// float Board::make_heuristic()
+// {
+//     int h = 0;
+//     for (int i = 0; i < GAME_SIZE; i++)
+//     {
+//         for (int j = 0; j < GAME_SIZE; j++)
+//         {
+//             if (this->matrix[i][j] != this->final_matrix[i][j])
+//                 ++h;
+//         }
+//     }
+//     return h;
+// }
 
 int Board::final_matrix[GAME_SIZE][GAME_SIZE] = {1, 2, 3, 4,
                                                  5, 6, 7, 8,

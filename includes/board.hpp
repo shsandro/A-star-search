@@ -13,9 +13,8 @@ public:
     std::pair<int, int> empty_position;
 
 public:
-    static bool check_board(Board &, Board &);
     void update_board(std::pair<int, int>);
-    float make_heuristic();
+    // float make_heuristic();
     Board();
     Board(Board *);
 };

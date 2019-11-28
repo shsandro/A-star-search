@@ -1,6 +1,8 @@
 #include "../includes/game.hpp"
 
-std::string matrix_to_string(Board *b)
+float (*Game::make_heuristic)(Board &);
+
+std::string Game::matrix_to_string(Board *b)
 {
     std::string str;
     for (int i = 0; i < GAME_SIZE; i++)
@@ -16,6 +18,8 @@ std::string matrix_to_string(Board *b)
 Game::Game(Board *initial_board)
 {
     Node *head = new Node(initial_board);
+    head->h = make_heuristic(*head->board);
+    head->f = head->g + head->h;
     std::string key = matrix_to_string(head->board);
     this->open_list.insert(std::pair<std::string, Node *>(key, head));
     this->heap.push(std::pair<std::string, Node *>(key, head));
@@ -25,17 +29,13 @@ void Game::make_nexts(Node *parent)
 {
     Node father = *parent;
 
-    Node *child_1 = new Node(father, father.board);
-    Node *child_2 = new Node(father, father.board);
-    Node *child_3 = new Node(father, father.board);
-    Node *child_4 = new Node(father, father.board);
-
     std::pair<int, int> position = father.board->empty_position;
 
     if (position.first != 0)
     {
+        Node *child_1 = new Node(father, father.board);
         child_1->board->update_board(std::make_pair(position.first - 1, position.second));
-        child_1->h = child_1->board->make_heuristic();
+        child_1->h = make_heuristic(*child_1->board);
         child_1->f = child_1->h + child_1->g;
 
         std::string key = matrix_to_string(child_1->board);
@@ -50,8 +50,9 @@ void Game::make_nexts(Node *parent)
     }
     if (position.first != 3)
     {
+        Node *child_2 = new Node(father, father.board);
         child_2->board->update_board(std::make_pair(position.first + 1, position.second));
-        child_2->h = child_2->board->make_heuristic();
+        child_2->h = make_heuristic(*child_2->board);
         child_2->f = child_2->h + child_2->g;
 
         std::string key = matrix_to_string(child_2->board);
@@ -66,8 +67,9 @@ void Game::make_nexts(Node *parent)
     }
     if (position.second != 0)
     {
+        Node *child_3 = new Node(father, father.board);
         child_3->board->update_board(std::make_pair(position.first, position.second - 1));
-        child_3->h = child_3->board->make_heuristic();
+        child_3->h = make_heuristic(*child_3->board);
         child_3->f = child_3->h + child_3->g;
 
         std::string key = matrix_to_string(child_3->board);
@@ -82,8 +84,9 @@ void Game::make_nexts(Node *parent)
     }
     if (position.second != 3)
     {
+        Node *child_4 = new Node(father, father.board);
         child_4->board->update_board(std::make_pair(position.first, position.second + 1));
-        child_4->h = child_4->board->make_heuristic();
+        child_4->h = make_heuristic(*child_4->board);
         child_4->f = child_4->h + child_4->g;
 
         std::string key = matrix_to_string(child_4->board);
@@ -104,9 +107,7 @@ void Game::check_open_list(Node &node, std::string key)
     if (it != this->open_list.end())
     {
         if (it->second->g > node.g)
-        {
             this->open_list.erase(key);
-        }
     }
 }
 

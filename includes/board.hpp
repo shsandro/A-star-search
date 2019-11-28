@@ -17,5 +17,5 @@ public:
     void update_board(std::pair<int, int>);
     float make_heuristic();
     Board();
-    Board(const Board &);
+    Board(Board *);
 };

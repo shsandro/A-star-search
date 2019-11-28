@@ -13,15 +13,15 @@ Board::Board()
     }
 }
 
-Board::Board(const Board &fathers_board)
+Board::Board(Board *fathers_board)
 {
-    this->empty_position = fathers_board.empty_position;
+    this->empty_position = fathers_board->empty_position;
 
     for (int i = 0; i < GAME_SIZE; i++)
     {
         for (int j = 0; j < GAME_SIZE; j++)
         {
-            this->matrix[i][j] = fathers_board.matrix[i][j];
+            this->matrix[i][j] = fathers_board->matrix[i][j];
         }
     }
 }
@@ -37,7 +37,7 @@ void Board::update_board(std::pair<int, int> new_position)
 
 float Board::make_heuristic()
 {
-    int h;
+    int h = 0;
     for (int i = 0; i < GAME_SIZE; i++)
     {
         for (int j = 0; j < GAME_SIZE; j++)

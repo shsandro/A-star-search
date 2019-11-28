@@ -14,7 +14,6 @@ public:
 
 public:
     void update_board(std::pair<int, int>);
-    // float make_heuristic();
     Board();
     Board(Board *);
 };

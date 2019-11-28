@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <string.h>
 #include <algorithm>
-#include <stdlib.h>
 #include <vector>
 #include "../includes/heuristics.hpp"
 

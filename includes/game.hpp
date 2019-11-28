@@ -29,6 +29,6 @@ public:
     void make_nexts(Node *);
     void check_open_list(Node &, std::string);
     void check_closed_list(Node &, std::string);
-    bool check_a_f(Node &, std::string);
+    bool check_open_closed(Node &, std::string);
     Game(Board *);
 };

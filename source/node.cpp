@@ -21,12 +21,12 @@ Node::Node(Board *b)
 {
     this->board = new Board(b);
     this->g = 0;
-    this->father = NULL;
+    this->parent = NULL;
 }
 
-Node::Node(Node &father, Board *b)
+Node::Node(Node &parent, Board *b)
 {
     this->board = new Board(b);
-    this->g = father.g + 1;
-    this->father = &father;
+    this->g = parent.g + 1;
+    this->parent = &parent;
 }

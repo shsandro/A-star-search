@@ -13,15 +13,15 @@ Board::Board()
     }
 }
 
-Board::Board(Board *fathers_board)
+Board::Board(Board *parents_board)
 {
-    this->empty_position = fathers_board->empty_position;
+    this->empty_position = parents_board->empty_position;
 
     for (int i = 0; i < GAME_SIZE; i++)
     {
         for (int j = 0; j < GAME_SIZE; j++)
         {
-            this->matrix[i][j] = fathers_board->matrix[i][j];
+            this->matrix[i][j] = parents_board->matrix[i][j];
         }
     }
 }

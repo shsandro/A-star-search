@@ -11,7 +11,7 @@ public:
     float h;
     float f;
     Board *board;
-    Node *father;
+    Node *parent;
 
 public:
     bool check_success();

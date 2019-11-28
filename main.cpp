@@ -1,29 +1,33 @@
-#include <algorithm>
 #include "./includes/game.hpp"
-
-bool compare(const Node *i, const Node *j) { return (i->f < j->f); }
 
 int main(int argc, char const *argv[])
 {
-    Game game = Game();
+    Board *initial_board = new Board();
+    Game moa = Game(initial_board);
 
-    while (!game.open_list.empty())
+    std::pair<std::string, Node *> min_element;
+    std::unordered_map<std::string, Node *>::iterator it;
+
+    while (!moa.open_list.empty())
     {
-        std::sort(game.open_list.begin(), game.open_list.end(), compare); // orneda o conjunto A
-        Node *first_element = game.open_list[0];                          // obtém o primeiro elemento
-        std::vector<Node *>::iterator element_to_be_removed = game.open_list.begin();
-        game.open_list.erase(element_to_be_removed); // remove o primeiro elemento
-        game.closed_list.push_back(first_element);   // adiciona o elemento no conjunto F
-
-        if (first_element->check_success())
+        do
         {
-            // print_board(first_element->board);
-            std::cout << first_element->g << std::endl;
+            min_element = std::make_pair(moa.heap.top().first, moa.heap.top().second);
+            moa.heap.pop();
+            it = moa.open_list.find(min_element.first);
+
+        } while (it == moa.open_list.end());
+
+        moa.open_list.erase(min_element.first);
+        moa.closed_list.insert(min_element);
+
+        if (min_element.second->check_success())
+        {
+            std::cout << min_element.second->g << std::endl;
             return 0;
         }
 
-        game.make_nexts(first_element); // gera os descendentes e os adiciona no conjunto correto
+        moa.make_nexts(min_element.second);
     }
-
     return 0;
 }

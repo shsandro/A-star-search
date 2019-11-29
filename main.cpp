@@ -6,7 +6,7 @@ typedef float (*MyHeuristic)(Board &);
 
 bool read_command_line(int argc, char const *argv[])
 {
-    std::map<std::string, MyHeuristic> heuristics;
+    std::unordered_map<std::string, MyHeuristic> heuristics;
     bool valid;
 
     heuristics["out_of_place"] = &out_of_place;
@@ -36,7 +36,7 @@ bool read_command_line(int argc, char const *argv[])
             }
             else if (std::string(argv[i]) == std::string("-i") && (argc - i) > 1)
             {
-                std::map<std::string, MyHeuristic>::iterator it;
+                std::unordered_map<std::string, MyHeuristic>::iterator it;
                 it = heuristics.find(argv[i + 1]);
                 if (it != heuristics.end())
                     Game::make_heuristic = heuristics[argv[i + 1]];

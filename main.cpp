@@ -28,11 +28,11 @@ bool read_command_line(int argc, char const *argv[])
                           << "Run './a-star -i <heuristic name> [-h]'" << std::endl
                           << std::endl
                           << "Default heuristics:" << std::endl
-                          << "out_of_place: number of pieces of out place compared to final configuration." << std::endl
-                          << "out_of_order: number of pieces out of order in the numerical sequence, following the order of positions on the board." << std::endl
-                          << "manhattan_distance: standart Manhattan Distance." << std::endl
-                          << "heuristic_4: linear combination of the three previous heuristics, where the sum of the coefficients must be equal one." << std::endl
-                          << "heuristic_5: max value between out_of_place, out_of_order and manhattan_distance." << std::endl;
+                          << "\tout_of_place: number of pieces of out place compared to final configuration." << std::endl
+                          << "\tout_of_order: number of pieces out of order in the numerical sequence, following the order of positions on the board." << std::endl
+                          << "\tmanhattan_distance: standart Manhattan Distance." << std::endl
+                          << "\theuristic_4: linear combination of the three previous heuristics, where the sum of the coefficients must be equal one." << std::endl
+                          << "\theuristic_5: max value between out_of_place, out_of_order and manhattan_distance." << std::endl;
             }
             else if (std::string(argv[i]) == std::string("-i") && (argc - i) > 1)
             {

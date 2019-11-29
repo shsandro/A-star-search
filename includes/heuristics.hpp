@@ -2,8 +2,8 @@
 
 #include "board.hpp"
 
-float heuristc_1(Board &);
-float heuristc_2(Board &);
-float heuristc_3(Board &);
-float heuristc_4(Board &);
-float heuristc_5(Board &);
+float out_of_place(Board &);
+float out_of_order(Board &);
+float manhattan_distance(Board &);
+float heuristic_4(Board &);
+float heuristic_5(Board &);

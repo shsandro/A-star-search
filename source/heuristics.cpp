@@ -3,7 +3,7 @@
 #include <vector>
 #include "../includes/heuristics.hpp"
 
-float heuristc_1(Board &b)
+float out_of_place(Board &b)
 {
     int h = 0;
     for (int i = 0; i < GAME_SIZE; i++)
@@ -17,7 +17,7 @@ float heuristc_1(Board &b)
     return h;
 }
 
-float heuristc_2(Board &b)
+float out_of_order(Board &b)
 {
     std::vector<int> array;
     int h = 0;
@@ -38,7 +38,7 @@ float heuristc_2(Board &b)
     return h;
 }
 
-float heuristc_3(Board &b)
+float manhattan_distance(Board &b)
 {
     int h = 0;
     int i_ = 0;
@@ -63,18 +63,18 @@ float heuristc_3(Board &b)
     return h;
 }
 
-float heuristc_4(Board &b)
+float heuristic_4(Board &b)
 {
     const float p1 = 0.19;
     const float p2 = 0.15;
     const float p3 = 0.66;
 
-    return p1 * heuristc_1(b) + p2 * heuristc_2(b) + p3 * heuristc_3(b);
+    return p1 * out_of_order(b) + p2 * out_of_place(b) + p3 * manhattan_distance(b);
 }
 
-float heuristc_5(Board &b)
+float heuristic_5(Board &b)
 {
-    const float heuristics[3] = {heuristc_1(b), heuristc_2(b), heuristc_3(b)};
+    const float heuristics[3] = {out_of_order(b), out_of_place(b), manhattan_distance(b)};
 
     return *std::max_element(heuristics, heuristics + 3);
 }

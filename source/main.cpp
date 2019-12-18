@@ -1,6 +1,6 @@
 #include <map>
-#include "./includes/game.hpp"
-#include "./includes/heuristics.hpp"
+#include "../includes/game.hpp"
+#include "../includes/heuristics.hpp"
 
 typedef float (*MyHeuristic)(Board &);
 

@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    Game::make_heuristic = &heuristc_5;
+    Game::make_heuristic = &heuristc_3;
     Board *initial_board = new Board();
     Game game = Game(initial_board);
 
